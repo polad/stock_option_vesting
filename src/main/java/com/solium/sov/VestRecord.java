@@ -38,6 +38,14 @@ public class VestRecord implements EmployeeAware {
         return vestDate;
     }
 
+    public int getNumOfUnits() {
+        return numOfUnits;
+    }
+
+    public double getGrantPrice() {
+        return grantPrice;
+    }
+
     public boolean belongsTo(EmployeeAware employeeAware) {
         return employeeAware.getEmployeeId().equals(employeeId);
     }

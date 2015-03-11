@@ -13,19 +13,27 @@ public class EmployeeGainCalculator implements EmployeeAware {
 
     public void add(VestRecord vestRecord) {
         if (vestRecord.belongsTo(this)) {
-            for (PerformanceRecord performanceRecord : performanceRecords) {
-                vestRecord.add(performanceRecord);
-            }
+            applyAllPerformanceRecordsTo(vestRecord);
             vestRecords.add(vestRecord);
+        }
+    }
+
+    private void applyAllPerformanceRecordsTo(VestRecord vestRecord) {
+        for (PerformanceRecord performanceRecord : performanceRecords) {
+            vestRecord.add(performanceRecord);
         }
     }
 
     public void add(PerformanceRecord performanceRecord) {
         if (performanceRecord.belongsTo(this)) {
             performanceRecords.add(performanceRecord);
-            for (VestRecord vestRecord : vestRecords) {
-                vestRecord.add(performanceRecord);
-            }
+            applyToAllVestRecords(performanceRecord);
+        }
+    }
+
+    private void applyToAllVestRecords(PerformanceRecord performanceRecord) {
+        for (VestRecord vestRecord : vestRecords) {
+            vestRecord.add(performanceRecord);
         }
     }
 

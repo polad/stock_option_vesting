@@ -1,5 +1,6 @@
 package com.solium.sov;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Date;
@@ -10,26 +11,27 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class EmployeeGainCalculatorTest {
+    private EmployeeGainCalculator employeeGainCalculator;
+    private String employeeId = "001B";
+
+    @BeforeMethod
+    private void beforeEachTest() {
+        employeeGainCalculator = new EmployeeGainCalculator(employeeId);
+    }
+
     @Test
     public void shouldCalculateTotalGain() {
         // Given
         Date marketDate = new Date(20140101);
         double marketPrice = 1.00;
 
-        String employeeId = "001B";
+        VestRecord record1 = mock(VestRecord.class);
+        given(record1.belongsTo(employeeGainCalculator)).willReturn(true);
+        given(record1.calculateGainFor(marketDate, marketPrice)).willReturn(550.00);
 
-        EmployeeGainCalculator employeeGainCalculator = new EmployeeGainCalculator(employeeId);
-
-//        VestRecord record1 = mock(VestRecord.class);
-//        given(record1.getEmployeeId()).willReturn(employeeId);
-//        given(record1.calculateGainFor(marketDate, marketPrice)).willReturn(550D);
-//
-//        VestRecord record2 = mock(VestRecord.class);
-//        given(record2.getEmployeeId()).willReturn(employeeId);
-//        given(record2.calculateGainFor(marketDate, marketPrice)).willReturn(750D);
-
-        VestRecord record1 = new VestRecord(employeeId, new Date(20120101), 1000, 0.45);
-        VestRecord record2 = new VestRecord(employeeId, new Date(20130101), 1500, 0.50);
+        VestRecord record2 = mock(VestRecord.class);
+        given(record2.belongsTo(employeeGainCalculator)).willReturn(true);
+        given(record2.calculateGainFor(marketDate, marketPrice)).willReturn(750.00);
 
         employeeGainCalculator.add(record1);
         employeeGainCalculator.add(record2);
@@ -38,10 +40,13 @@ public class EmployeeGainCalculatorTest {
         Double result = employeeGainCalculator.calculateGainFor(marketDate, marketPrice);
 
         // Then
-        assertThat(result).isEqualTo(1300D);
+        assertThat(result).isEqualTo(1300.00);
 
-//        verify(record1).calculateGainFor(marketDate, marketPrice);
-//        verify(record2).calculateGainFor(marketDate, marketPrice);
+        verify(record1).belongsTo(employeeGainCalculator);
+        verify(record1).calculateGainFor(marketDate, marketPrice);
+
+        verify(record2).belongsTo(employeeGainCalculator);
+        verify(record2).calculateGainFor(marketDate, marketPrice);
     }
 
     @Test
@@ -50,30 +55,16 @@ public class EmployeeGainCalculatorTest {
         Date marketDate = new Date(20140101);
         double marketPrice = 1.00;
 
-        String employeeId = "001B";
+        VestRecord vestRecord1 = mock(VestRecord.class);
+        given(vestRecord1.belongsTo(employeeGainCalculator)).willReturn(true);
+        given(vestRecord1.calculateGainFor(marketDate, marketPrice)).willReturn(825.00);
 
-        EmployeeGainCalculator employeeGainCalculator = new EmployeeGainCalculator(employeeId);
+        VestRecord vestRecord2 = mock(VestRecord.class);
+        given(vestRecord2.belongsTo(employeeGainCalculator)).willReturn(true);
+        given(vestRecord2.calculateGainFor(marketDate, marketPrice)).willReturn(750.00);
 
-//        VestRecord vestRecord1 = mock(VestRecord.class);
-//        given(vestRecord1.getEmployeeId()).willReturn(employeeId);
-//        given(vestRecord1.getVestDate()).willReturn(new Date(20120102));
-//        given(vestRecord1.calculateGainFor(marketDate, marketPrice)).willReturn(550D);
-//
-//        VestRecord vestRecord2 = mock(VestRecord.class);
-//        given(vestRecord2.getEmployeeId()).willReturn(employeeId);
-//        given(vestRecord2.getVestDate()).willReturn(new Date(20131010));
-//        given(vestRecord2.calculateGainFor(marketDate, marketPrice)).willReturn(750D);
-//
-//        PerformanceRecord performanceRecord = mock(PerformanceRecord.class);
-//        given(performanceRecord.getEmployeeId()).willReturn(employeeId);
-//        given(performanceRecord.getBonusEffectiveDate()).willReturn(new Date(20130102));
-//        given(performanceRecord.getBonusMultiplier()).willReturn(1.5);
-//        given(performanceRecord.calculateGainFor(marketDate, marketPrice)).willReturn(825D);
-//        given(performanceRecord.calculateGainFor(marketDate, marketPrice)).willReturn(750D);
-
-        VestRecord vestRecord1 = new VestRecord(employeeId, new Date(20120102), 1000, 0.45);
-        VestRecord vestRecord2 = new VestRecord(employeeId, new Date(20131010), 1500, 0.50);
-        PerformanceRecord performanceRecord = new PerformanceRecord(employeeId, new Date(20130102), 1.5);
+        PerformanceRecord performanceRecord = mock(PerformanceRecord.class);
+        given(performanceRecord.belongsTo(employeeGainCalculator)).willReturn(true);
 
         employeeGainCalculator.add(vestRecord1);
         employeeGainCalculator.add(vestRecord2);
@@ -83,9 +74,12 @@ public class EmployeeGainCalculatorTest {
         Double result = employeeGainCalculator.calculateGainFor(marketDate, marketPrice);
 
         // Then
-        assertThat(result).isEqualTo(1575D);
+        assertThat(result).isEqualTo(1575.00);
 
-//        verify(vestRecord2).calculateGainFor(marketDate, marketPrice);
-//        verify(performanceRecord).calculateGainFor(marketDate, marketPrice);
+        verify(vestRecord1).add(performanceRecord);
+        verify(vestRecord1).calculateGainFor(marketDate, marketPrice);
+
+        verify(vestRecord2).add(performanceRecord);
+        verify(vestRecord2).calculateGainFor(marketDate, marketPrice);
     }
 }

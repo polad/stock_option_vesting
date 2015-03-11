@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class VestRecordTest {
     private VestRecord vestRecord;
@@ -56,12 +59,15 @@ public class VestRecordTest {
     }
 
     @Test
-    public void shouldCalculateGainWithPerformanseBonus() {
+    public void shouldCalculateGainWithPerformanceBonus() {
         // Given
         Date marketDate = new Date(20140101);
         double marketPrice = 1.00;
 
-        PerformanceRecord performanceRecord = new PerformanceRecord(employeeId, new Date(20120110), 1.5);
+        PerformanceRecord performanceRecord = mock(PerformanceRecord.class);
+        given(performanceRecord.appliesTo(vestRecord)).willReturn(true);
+        given(performanceRecord.getBonusMultiplierFor(marketDate)).willReturn(1.5);
+
         vestRecord.add(performanceRecord);
 
         // When
@@ -69,16 +75,25 @@ public class VestRecordTest {
 
         // Then
         assertThat(result).isEqualTo(825.00);
+
+        verify(performanceRecord).appliesTo(vestRecord);
+        verify(performanceRecord).getBonusMultiplierFor(marketDate);
     }
 
     @Test
-    public void shouldCalculateGainWithMultiplePerformanseBonuses() {
+    public void shouldCalculateGainWithMultiplePerformanceBonuses() {
         // Given
         Date marketDate = new Date(20140101);
         double marketPrice = 1.00;
 
-        PerformanceRecord performanceRecord1 = new PerformanceRecord(employeeId, new Date(20120101), 1.5);
-        PerformanceRecord performanceRecord2 = new PerformanceRecord(employeeId, new Date(20120301), 2);
+        PerformanceRecord performanceRecord1 = mock(PerformanceRecord.class);
+        given(performanceRecord1.appliesTo(vestRecord)).willReturn(true);
+        given(performanceRecord1.getBonusMultiplierFor(marketDate)).willReturn(1.5);
+
+        PerformanceRecord performanceRecord2 = mock(PerformanceRecord.class);
+        given(performanceRecord2.appliesTo(vestRecord)).willReturn(true);
+        given(performanceRecord2.getBonusMultiplierFor(marketDate)).willReturn(2.00);
+
         vestRecord.add(performanceRecord1);
         vestRecord.add(performanceRecord2);
 

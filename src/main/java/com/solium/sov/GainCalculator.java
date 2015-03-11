@@ -3,24 +3,41 @@ package com.solium.sov;
 import java.util.*;
 
 public class GainCalculator {
-    private Date marketDate;
-    private double marketPrice;
+    private EmployeeGainCalculatorFactory calculatorFactory;
+    private Map<String, EmployeeGainCalculator> employeeGainCalculators = new HashMap<String, EmployeeGainCalculator>();
 
-    public GainCalculator(Date marketDate, double marketPrice) {
-        this.marketDate = marketDate;
-        this.marketPrice = marketPrice;
+    public GainCalculator(EmployeeGainCalculatorFactory calculatorFactory) {
+        this.calculatorFactory = calculatorFactory;
     }
 
-    public SortedMap<String, Double> calculate(List<VestRecord> stockRecords) {
+    public void add(VestRecord vestRecord) {
+        getEmployeeGainCalculatorFor(vestRecord).add(vestRecord);
+    }
+
+    public void add(PerformanceRecord performanceRecord) {
+        getEmployeeGainCalculatorFor(performanceRecord).add(performanceRecord);
+    }
+
+    private EmployeeGainCalculator getEmployeeGainCalculatorFor(EmployeeAware employeeAware) {
+        String employeeId = employeeAware.getEmployeeId();
+        if (employeeGainCalculators.containsKey(employeeId)) {
+            return employeeGainCalculators.get(employeeId);
+        } else {
+            return createNewCalculatorFor(employeeAware);
+        }
+    }
+
+    private EmployeeGainCalculator createNewCalculatorFor(EmployeeAware employeeAware) {
+        EmployeeGainCalculator result = calculatorFactory.build(employeeAware);
+        employeeGainCalculators.put(result.getEmployeeId(), result);
+        return result;
+    }
+
+    public SortedMap<String, Double> calculateGainFor(Date marketDate, double marketPrice) {
         SortedMap<String, Double> result = new TreeMap<String, Double>();
-        for (VestRecord record : stockRecords) {
-            String employeeId = record.getEmployeeId();
-            Double gain = 0.00;
-            if (result.containsKey(employeeId)) {
-                gain = result.get(employeeId);
-            }
-            gain += record.calculateGainFor(marketDate, marketPrice);
-            result.put(employeeId, gain);
+        for (String employeeId : employeeGainCalculators.keySet()) {
+            EmployeeGainCalculator calculator = employeeGainCalculators.get(employeeId);
+            result.put(employeeId, calculator.calculateGainFor(marketDate, marketPrice));
         }
         return result;
     }

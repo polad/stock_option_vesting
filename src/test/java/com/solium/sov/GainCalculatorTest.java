@@ -24,23 +24,19 @@ public class GainCalculatorTest {
         given(employeeGainCalculator2.getEmployeeId()).willReturn("002B");
         given(employeeGainCalculator2.calculateGainFor(marketDate, marketPrice)).willReturn(825.00);
 
-        VestRecord vestRecord1 = mock(VestRecord.class);
-        given(vestRecord1.getEmployeeId()).willReturn("001B");
+        EmployeeAwareRecord record1 = mock(EmployeeAwareRecord.class);
+        given(record1.getEmployeeId()).willReturn("001B");
 
-        VestRecord vestRecord2 = mock(VestRecord.class);
-        given(vestRecord2.getEmployeeId()).willReturn("002B");
-
-        PerformanceRecord performanceRecord = mock(PerformanceRecord.class);
-        given(performanceRecord.getEmployeeId()).willReturn("002B");
+        EmployeeAwareRecord record2 = mock(EmployeeAwareRecord.class);
+        given(record2.getEmployeeId()).willReturn("002B");
 
         EmployeeGainCalculatorFactory calculatorFactory = mock(EmployeeGainCalculatorFactory.class);
-        given(calculatorFactory.build(vestRecord1)).willReturn(employeeGainCalculator1);
-        given(calculatorFactory.build(vestRecord2)).willReturn(employeeGainCalculator2);
+        given(calculatorFactory.build(record1)).willReturn(employeeGainCalculator1);
+        given(calculatorFactory.build(record2)).willReturn(employeeGainCalculator2);
 
         GainCalculator calculator = new GainCalculator(calculatorFactory);
-        calculator.add(vestRecord1);
-        calculator.add(vestRecord2);
-        calculator.add(performanceRecord);
+        calculator.add(record1);
+        calculator.add(record2);
 
         // When
         SortedMap<String, Double> result = calculator.calculateGainFor(marketDate, marketPrice);
@@ -51,11 +47,10 @@ public class GainCalculatorTest {
                 .containsEntry("001B", 550.00)
                 .containsEntry("002B", 825.00);
 
-        verify(employeeGainCalculator1).add(vestRecord1);
+        verify(employeeGainCalculator1).add(record1);
         verify(employeeGainCalculator1).calculateGainFor(marketDate, marketPrice);
 
-        verify(employeeGainCalculator2).add(vestRecord2);
-        verify(employeeGainCalculator2).add(performanceRecord);
+        verify(employeeGainCalculator2).add(record2);
         verify(employeeGainCalculator2).calculateGainFor(marketDate, marketPrice);
     }
 }

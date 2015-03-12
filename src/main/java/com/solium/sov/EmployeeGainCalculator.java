@@ -11,6 +11,14 @@ public class EmployeeGainCalculator implements EmployeeAware {
         this.employeeId = employeeId;
     }
 
+    public void add(EmployeeAwareRecord record) {
+        if (record instanceof VestRecord) {
+            add((VestRecord) record);
+        } else if (record instanceof PerformanceRecord) {
+            add((PerformanceRecord) record);
+        }
+    }
+
     public void add(VestRecord vestRecord) {
         if (vestRecord.belongsTo(this)) {
             applyAllPerformanceRecordsTo(vestRecord);
@@ -18,16 +26,16 @@ public class EmployeeGainCalculator implements EmployeeAware {
         }
     }
 
-    private void applyAllPerformanceRecordsTo(VestRecord vestRecord) {
-        for (PerformanceRecord performanceRecord : performanceRecords) {
-            vestRecord.add(performanceRecord);
+    public void add(PerformanceRecord performanceRecord) {
+        if (performanceRecord.belongsTo(this)) {
+            applyToAllVestRecords(performanceRecord);
+            performanceRecords.add(performanceRecord);
         }
     }
 
-    public void add(PerformanceRecord performanceRecord) {
-        if (performanceRecord.belongsTo(this)) {
-            performanceRecords.add(performanceRecord);
-            applyToAllVestRecords(performanceRecord);
+    private void applyAllPerformanceRecordsTo(VestRecord vestRecord) {
+        for (PerformanceRecord performanceRecord : performanceRecords) {
+            vestRecord.add(performanceRecord);
         }
     }
 

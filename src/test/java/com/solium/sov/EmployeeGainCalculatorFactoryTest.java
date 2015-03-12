@@ -8,7 +8,7 @@ import static org.mockito.Mockito.mock;
 
 public class EmployeeGainCalculatorFactoryTest {
     @Test
-    public void shouldBuildGainCalculatorForEmployeAware() {
+    public void shouldBuildGainCalculatorForEmployeeAware() {
         // Given
         EmployeeAware employeeAware = mock(EmployeeAware.class);
         given(employeeAware.getEmployeeId()).willReturn("001B");

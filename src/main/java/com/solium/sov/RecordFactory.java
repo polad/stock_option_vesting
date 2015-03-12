@@ -3,7 +3,7 @@ package com.solium.sov;
 import java.util.Date;
 
 public class RecordFactory {
-    public EmployeeAware build(String[] recordArray) {
+    public EmployeeAwareRecord build(String[] recordArray) {
         if (isOfTypeVestRecord(recordArray)) {
             return buildVestRecord(recordArray);
         } else if (isOfTypePerformanceRecord(recordArray)) {
@@ -12,7 +12,7 @@ public class RecordFactory {
         return null;
     }
 
-    private EmployeeAware buildVestRecord(String[] recordArray) {
+    private EmployeeAwareRecord buildVestRecord(String[] recordArray) {
         return new VestRecord(
                 recordArray[1],
                 new Date(Integer.parseInt(recordArray[2])),
@@ -21,7 +21,7 @@ public class RecordFactory {
         );
     }
 
-    private EmployeeAware buildPerformanceRecord(String[] recordArray) {
+    private EmployeeAwareRecord buildPerformanceRecord(String[] recordArray) {
         return new PerformanceRecord(
                 recordArray[1],
                 new Date(Integer.parseInt(recordArray[2])),

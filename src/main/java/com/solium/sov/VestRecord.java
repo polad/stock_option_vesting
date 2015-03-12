@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VestRecord implements EmployeeAware {
+public class VestRecord implements EmployeeAwareRecord {
     private String employeeId;
     private Date vestDate;
     private int numOfUnits;

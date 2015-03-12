@@ -10,20 +10,8 @@ public class GainCalculator {
         this.calculatorFactory = calculatorFactory;
     }
 
-    public void add(EmployeeAware employeeAware) {
-        if (employeeAware instanceof VestRecord) {
-            add((VestRecord) employeeAware);
-        } else if (employeeAware instanceof PerformanceRecord) {
-            add((PerformanceRecord) employeeAware);
-        }
-    }
-
-    public void add(VestRecord vestRecord) {
-        getEmployeeGainCalculatorFor(vestRecord).add(vestRecord);
-    }
-
-    public void add(PerformanceRecord performanceRecord) {
-        getEmployeeGainCalculatorFor(performanceRecord).add(performanceRecord);
+    public void add(EmployeeAwareRecord employeeAwareRecord) {
+        getEmployeeGainCalculatorFor(employeeAwareRecord).add(employeeAwareRecord);
     }
 
     private EmployeeGainCalculator getEmployeeGainCalculatorFor(EmployeeAware employeeAware) {

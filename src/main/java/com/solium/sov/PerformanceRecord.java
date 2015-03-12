@@ -2,7 +2,7 @@ package com.solium.sov;
 
 import java.util.Date;
 
-public class PerformanceRecord implements EmployeeAware {
+public class PerformanceRecord implements EmployeeAwareRecord {
     private String employeeId;
     private Date bonusEffectiveDate;
     private double bonusMultiplier;

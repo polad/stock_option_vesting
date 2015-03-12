@@ -19,16 +19,10 @@ repositories {
 }
 
 dependencies {
-    compile(
-        ['com.google.inject:guice:3.0'],
-        ['org.slf4j:slf4j-log4j12:1.7.7']
-    )
     testCompile(
-        ['org.testng:testng:6.8.8'],
-        ['org.mockito:mockito-all:1.9.5'],
-        ['org.assertj:assertj-core:1.6.1'],
-        ['org.powermock:powermock-api-mockito:1.6.0'],
-        ['org.powermock:powermock-module-testng:1.6.0']
+        ['org.testng:testng:6.8.21'],
+        ['org.mockito:mockito-all:1.10.19'],
+        ['org.assertj:assertj-core:1.7.1']
     )
 }
 
@@ -44,4 +38,14 @@ test {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
+}
+
+jar {
+    manifest {
+        attributes(
+                "Manifest-Version": "1.0",
+                "Created-By": "Polad Mirzayev <polad.mirzayev@gmail.com>",
+                "Main-Class": "com.solium.sov.StockOptionVesting"
+        )
+    }
 }

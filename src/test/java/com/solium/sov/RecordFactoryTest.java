@@ -20,7 +20,7 @@ public class RecordFactoryTest {
         RecordFactory recordFactory = new RecordFactory();
 
         // When
-        EmployeeAware result = recordFactory.build(recordArray);
+        EmployeeAwareRecord result = recordFactory.build(recordArray);
 
         // Then
         assertThat(result).isInstanceOf(VestRecord.class);
@@ -44,7 +44,7 @@ public class RecordFactoryTest {
         RecordFactory recordFactory = new RecordFactory();
 
         // When
-        EmployeeAware result = recordFactory.build(recordArray);
+        EmployeeAwareRecord result = recordFactory.build(recordArray);
 
         // Then
         assertThat(result).isInstanceOf(PerformanceRecord.class);

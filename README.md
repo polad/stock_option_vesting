@@ -29,7 +29,7 @@ vested by the date given, they should still appear in the output with a total ga
 a negative net gain (these options would be called “under water”), they should still appear in the output
 with a total gain of **0.00**.
 
-### Example: ###
+#### Example: ####
 **Input:**
 
     5
@@ -59,7 +59,7 @@ is the employee identifier, the third field is the date the bonus takes effect, 
 For simplification purposes, this multiplier *applies to all available units on or before the day of the
 bonus*.
 
-### Example: ###
+#### Example: ####
 **Input:**
 
     5

@@ -1,5 +1,6 @@
 package com.solium.sov;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -46,8 +47,9 @@ public class InputLoader {
     }
 
     private void printResults(SortedMap<String, Double> result) {
+        DecimalFormat formatter = new DecimalFormat("0.00");
         for (String employeeId : result.keySet()) {
-            System.out.println(employeeId + "," + result.get(employeeId));
+            System.out.println(employeeId + "," + formatter.format(result.get(employeeId)));
         }
     }
 

@@ -1,5 +1,8 @@
 package com.solium.sov;
 
+import com.solium.sov.employeegaincalculator.EmployeeGainCalculator;
+import com.solium.sov.employeegaincalculator.EmployeeGainCalculatorFactory;
+
 import java.util.*;
 
 public class GainCalculator {

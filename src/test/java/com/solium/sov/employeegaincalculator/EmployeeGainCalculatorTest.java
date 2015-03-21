@@ -1,5 +1,7 @@
-package com.solium.sov;
+package com.solium.sov.employeegaincalculator;
 
+import com.solium.sov.PerformanceRecord;
+import com.solium.sov.VestRecord;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

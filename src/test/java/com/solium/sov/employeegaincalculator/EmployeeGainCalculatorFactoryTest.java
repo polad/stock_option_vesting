@@ -1,5 +1,6 @@
-package com.solium.sov;
+package com.solium.sov.employeegaincalculator;
 
+import com.solium.sov.EmployeeAware;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

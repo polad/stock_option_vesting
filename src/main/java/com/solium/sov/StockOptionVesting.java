@@ -1,5 +1,7 @@
 package com.solium.sov;
 
+import com.solium.sov.employeegaincalculator.EmployeeGainCalculatorFactory;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;

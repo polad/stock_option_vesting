@@ -1,5 +1,7 @@
 package com.solium.sov;
 
+import com.solium.sov.employeegaincalculator.EmployeeGainCalculator;
+import com.solium.sov.employeegaincalculator.EmployeeGainCalculatorFactory;
 import org.testng.annotations.Test;
 
 import java.util.*;

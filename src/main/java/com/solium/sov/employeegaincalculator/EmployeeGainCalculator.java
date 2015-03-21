@@ -1,4 +1,9 @@
-package com.solium.sov;
+package com.solium.sov.employeegaincalculator;
+
+import com.solium.sov.EmployeeAware;
+import com.solium.sov.EmployeeAwareRecord;
+import com.solium.sov.PerformanceRecord;
+import com.solium.sov.VestRecord;
 
 import java.util.*;
 
@@ -7,7 +12,7 @@ public class EmployeeGainCalculator implements EmployeeAware {
     private Set<VestRecord> vestRecords = new HashSet<VestRecord>();
     private Set<PerformanceRecord> performanceRecords = new HashSet<PerformanceRecord>();
 
-    public EmployeeGainCalculator(String employeeId) {
+    protected EmployeeGainCalculator(String employeeId) {
         this.employeeId = employeeId;
     }
 

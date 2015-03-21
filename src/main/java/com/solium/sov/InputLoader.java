@@ -1,10 +1,6 @@
 package com.solium.sov;
 
-import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.SortedMap;
 
 public class InputLoader {
     private GainCalculator gainCalculator;
@@ -15,45 +11,41 @@ public class InputLoader {
         this.recordFactory = recordFactory;
     }
 
-    public void load(Scanner inputScanner) {
+    public String[] loadRecordsAndGetMarketInfo(Scanner inputScanner) {
+        int numOfRecords = loadNumberOfRecords(inputScanner);
+        loadRecords(numOfRecords, inputScanner);
+        return loadMarketInfo(inputScanner);
+    }
+
+    private int loadNumberOfRecords(Scanner inputScanner) {
         try {
-            int numOfRecords = Integer.parseInt(inputScanner.nextLine());
-            loadRecords(numOfRecords, inputScanner);
-            String marketInfoLine = inputScanner.nextLine();
-            String[] marketInfo = marketInfoLine.split(",");
-            printResults(calculateTotalGainsFor(marketInfo));
-        } catch (NoSuchElementException e) {
-            throwInvalidInputException();
+            return Integer.parseInt(inputScanner.nextLine());
         } catch (NumberFormatException e) {
-            throwInvalidInputException();
+            throw new RuntimeException("Invalid number of records provided");
         }
     }
 
     private void loadRecords(int numOfRecords, Scanner inputScanner) {
-        for (int i=0; i<numOfRecords; i++) {
-            String line = inputScanner.nextLine();
-            String[] recordArray = line.split(",");
-            EmployeeAwareRecord employeeAwareRecord = recordFactory.build(recordArray);
-            if (employeeAwareRecord != null) {
-                gainCalculator.add(employeeAwareRecord);
+        try {
+            for (int i = 0; i < numOfRecords; i++) {
+                String line = inputScanner.nextLine();
+                String[] recordArray = line.split(",");
+                EmployeeAwareRecord employeeAwareRecord = recordFactory.build(recordArray);
+                if (employeeAwareRecord != null) {
+                    gainCalculator.add(employeeAwareRecord);
+                }
             }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Invalid records provided");
         }
     }
 
-    private SortedMap<String, Double> calculateTotalGainsFor(String[] marketInfo) {
-        Date marketDate = new Date(Integer.parseInt(marketInfo[0]));
-        double marketPrice = Double.parseDouble(marketInfo[1]);
-        return gainCalculator.calculateGainFor(marketDate, marketPrice);
-    }
-
-    private void printResults(SortedMap<String, Double> result) {
-        DecimalFormat formatter = new DecimalFormat("0.00");
-        for (String employeeId : result.keySet()) {
-            System.out.println(employeeId + "," + formatter.format(result.get(employeeId)));
+    private String[] loadMarketInfo(Scanner inputScanner) {
+        String marketInfoLine = inputScanner.nextLine();
+        String[] result = marketInfoLine.split(",");
+        if (result.length < 2 || result[0].equals("") || result[1].equals("")) {
+            throw new RuntimeException("Invalid market info provided");
         }
-    }
-
-    private void throwInvalidInputException() {
-        throw new RuntimeException("Invalid input provided");
+        return result;
     }
 }

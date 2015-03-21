@@ -39,7 +39,7 @@ public class GainCalculatorTest {
         calculator.add(record2);
 
         // When
-        SortedMap<String, Double> result = calculator.calculateGainFor(marketDate, marketPrice);
+        Map<String, Double> result = calculator.calculateGainFor(marketDate, marketPrice);
 
         // Then
         assertThat(result)

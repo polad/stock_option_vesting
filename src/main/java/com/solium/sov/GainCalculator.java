@@ -29,8 +29,8 @@ public class GainCalculator {
         return result;
     }
 
-    public SortedMap<String, Double> calculateGainFor(Date marketDate, double marketPrice) {
-        SortedMap<String, Double> result = new TreeMap<String, Double>();
+    public Map<String, Double> calculateGainFor(Date marketDate, double marketPrice) {
+        Map<String, Double> result = new HashMap<String, Double>();
         for (String employeeId : employeeGainCalculators.keySet()) {
             EmployeeGainCalculator calculator = employeeGainCalculators.get(employeeId);
             result.put(employeeId, calculator.calculateGainFor(marketDate, marketPrice));

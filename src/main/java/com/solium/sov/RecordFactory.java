@@ -1,39 +1,24 @@
 package com.solium.sov;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class RecordFactory {
+public class RecordFactory implements EmployeeAwareRecordFactory {
+    private Map<String, EmployeeAwareRecordFactory> factories = new HashMap<String, EmployeeAwareRecordFactory>();
+
     public EmployeeAwareRecord build(String[] recordArray) {
-        if (isOfTypeVestRecord(recordArray)) {
-            return buildVestRecord(recordArray);
-        } else if (isOfTypePerformanceRecord(recordArray)) {
-            return buildPerformanceRecord(recordArray);
+        String recordType = recordArray[0];
+        return getFactoryFor(recordType).build(recordArray);
+    }
+
+    private EmployeeAwareRecordFactory getFactoryFor(String recordType) {
+        if (!factories.containsKey(recordType)) {
+            throw new RuntimeException("Trying to build an unknown record type");
         }
-        return null;
+        return factories.get(recordType);
     }
 
-    private EmployeeAwareRecord buildVestRecord(String[] recordArray) {
-        return new VestRecord(
-                recordArray[1],
-                new Date(Integer.parseInt(recordArray[2])),
-                Integer.parseInt(recordArray[3]),
-                Double.parseDouble(recordArray[4])
-        );
-    }
-
-    private EmployeeAwareRecord buildPerformanceRecord(String[] recordArray) {
-        return new PerformanceRecord(
-                recordArray[1],
-                new Date(Integer.parseInt(recordArray[2])),
-                Double.parseDouble(recordArray[3])
-        );
-    }
-
-    private boolean isOfTypeVestRecord(Object[] obj) {
-        return obj[0].equals("VEST") && obj.length == 5;
-    }
-
-    private boolean isOfTypePerformanceRecord(Object[] obj) {
-        return obj[0].equals("PERF") && obj.length == 4;
+    public void addFactory(String recordType, EmployeeAwareRecordFactory factory) {
+        factories.put(recordType, factory);
     }
 }

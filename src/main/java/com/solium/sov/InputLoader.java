@@ -26,17 +26,13 @@ public class InputLoader {
     }
 
     private void loadRecords(int numOfRecords, Scanner inputScanner) {
-        try {
-            for (int i = 0; i < numOfRecords; i++) {
-                String line = inputScanner.nextLine();
-                String[] recordArray = line.split(",");
-                EmployeeAwareRecord employeeAwareRecord = recordFactory.build(recordArray);
-                if (employeeAwareRecord != null) {
-                    gainCalculator.add(employeeAwareRecord);
-                }
+        for (int i = 0; i < numOfRecords; i++) {
+            String line = inputScanner.nextLine();
+            String[] recordArray = line.split(",");
+            EmployeeAwareRecord employeeAwareRecord = recordFactory.build(recordArray);
+            if (employeeAwareRecord != null) {
+                gainCalculator.add(employeeAwareRecord);
             }
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Invalid records provided");
         }
     }
 

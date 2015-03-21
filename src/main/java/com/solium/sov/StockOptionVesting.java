@@ -9,6 +9,8 @@ public class StockOptionVesting {
         EmployeeGainCalculatorFactory employeeGainCalculatorFactory = new EmployeeGainCalculatorFactory();
         GainCalculator gainCalculator = new GainCalculator(employeeGainCalculatorFactory);
         RecordFactory recordFactory = new RecordFactory();
+        recordFactory.addFactory("VEST", new VestRecordFactory());
+        recordFactory.addFactory("PERF", new PerformanceRecordFactory());
         InputLoader loader = new InputLoader(gainCalculator, recordFactory);
 
         try {

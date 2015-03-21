@@ -80,10 +80,9 @@ public class InputLoaderTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfInvalidRecordsProvidedInTheInput() {
+    public void shouldThrowExceptionIfNoRecordsProvidedInTheInput() {
         // Given
-        String fileContent = "2\r\n"
-                +"20140101,1.00";
+        String fileContent = "2\r\n";
 
         Scanner inputScanner = new Scanner(fileContent);
 
@@ -93,7 +92,7 @@ public class InputLoaderTest {
         } catch (RuntimeException e) {
             assertThat(e)
                     .isInstanceOf(RuntimeException.class)
-                    .hasMessage("Invalid records provided");
+                    .hasMessage("No line found");
         }
 
         // Then

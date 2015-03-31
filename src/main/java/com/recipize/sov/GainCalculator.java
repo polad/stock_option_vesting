@@ -1,7 +1,7 @@
-package com.solium.sov;
+package com.recipize.sov;
 
-import com.solium.sov.employeegaincalculator.EmployeeGainCalculator;
-import com.solium.sov.employeegaincalculator.EmployeeGainCalculatorFactory;
+import com.recipize.sov.employeegaincalculator.EmployeeGainCalculator;
+import com.recipize.sov.employeegaincalculator.EmployeeGainCalculatorFactory;
 
 import java.util.*;
 

@@ -1,7 +1,7 @@
-package com.solium.sov.employeegaincalculator;
+package com.recipize.sov.employeegaincalculator;
 
-import com.solium.sov.PerformanceRecord;
-import com.solium.sov.VestRecord;
+import com.recipize.sov.PerformanceRecord;
+import com.recipize.sov.VestRecord;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

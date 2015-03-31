@@ -45,7 +45,7 @@ jar {
         attributes(
                 "Manifest-Version": "1.0",
                 "Created-By": "Polad Mirzayev <polad.mirzayev@gmail.com>",
-                "Main-Class": "com.solium.sov.StockOptionVesting"
+                "Main-Class": "com.recipize.sov.StockOptionVesting"
         )
     }
 }

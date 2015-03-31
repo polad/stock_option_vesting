@@ -1,14 +1,15 @@
-package com.solium.sov;
+package com.recipize.sov;
 
 import java.util.Date;
 
-public class PerformanceRecordFactory implements EmployeeAwareRecordFactory {
+public class VestRecordFactory implements EmployeeAwareRecordFactory {
     public EmployeeAwareRecord build(String[] recordArray) {
         try {
-            return new PerformanceRecord(
+            return new VestRecord(
                     recordArray[1],
                     new Date(Integer.parseInt(recordArray[2])),
-                    Double.parseDouble(recordArray[3])
+                    Integer.parseInt(recordArray[3]),
+                    Double.parseDouble(recordArray[4])
             );
         } catch (RuntimeException e) {
             throw new RuntimeException("Invalid records provided");

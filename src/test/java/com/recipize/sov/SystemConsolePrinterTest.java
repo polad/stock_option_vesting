@@ -1,4 +1,4 @@
-package com.solium.sov;
+package com.recipize.sov;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

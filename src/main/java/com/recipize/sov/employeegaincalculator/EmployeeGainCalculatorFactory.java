@@ -1,6 +1,6 @@
-package com.solium.sov.employeegaincalculator;
+package com.recipize.sov.employeegaincalculator;
 
-import com.solium.sov.EmployeeAware;
+import com.recipize.sov.EmployeeAware;
 
 public class EmployeeGainCalculatorFactory {
     public EmployeeGainCalculator build(EmployeeAware employeeAware) {

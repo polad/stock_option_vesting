@@ -1,4 +1,4 @@
-package com.solium.sov;
+package com.recipize.sov;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package com.solium.sov;
+package com.recipize.sov;
 
 public interface EmployeeAware {
     public boolean belongsTo(EmployeeAware employeeAware);

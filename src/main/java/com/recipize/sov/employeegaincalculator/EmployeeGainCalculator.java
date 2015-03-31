@@ -1,9 +1,9 @@
-package com.solium.sov.employeegaincalculator;
+package com.recipize.sov.employeegaincalculator;
 
-import com.solium.sov.EmployeeAware;
-import com.solium.sov.EmployeeAwareRecord;
-import com.solium.sov.PerformanceRecord;
-import com.solium.sov.VestRecord;
+import com.recipize.sov.EmployeeAware;
+import com.recipize.sov.EmployeeAwareRecord;
+import com.recipize.sov.PerformanceRecord;
+import com.recipize.sov.VestRecord;
 
 import java.util.*;
 

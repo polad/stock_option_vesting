@@ -10,6 +10,7 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class EmployeeGainCalculatorTest {
@@ -59,14 +60,17 @@ public class EmployeeGainCalculatorTest {
 
         VestRecord vestRecord1 = mock(VestRecord.class);
         given(vestRecord1.belongsTo(employeeGainCalculator)).willReturn(true);
-        given(vestRecord1.calculateGainFor(marketDate, marketPrice)).willReturn(825.00);
+        given(vestRecord1.calculateGainFor(marketDate, marketPrice)).willReturn(550.00);
 
         VestRecord vestRecord2 = mock(VestRecord.class);
         given(vestRecord2.belongsTo(employeeGainCalculator)).willReturn(true);
-        given(vestRecord2.calculateGainFor(marketDate, marketPrice)).willReturn(750.00);
+        given(vestRecord2.calculateGainFor(marketDate, marketPrice)).willReturn(500.00);
 
         PerformanceRecord performanceRecord = mock(PerformanceRecord.class);
         given(performanceRecord.belongsTo(employeeGainCalculator)).willReturn(true);
+        given(performanceRecord.getBonusMultiplierFor(marketDate)).willReturn(1.5);
+        given(performanceRecord.appliesTo(vestRecord1)).willReturn(true);
+        given(performanceRecord.appliesTo(vestRecord2)).willReturn(true);
 
         employeeGainCalculator.add(vestRecord1);
         employeeGainCalculator.add(vestRecord2);
@@ -78,10 +82,14 @@ public class EmployeeGainCalculatorTest {
         // Then
         assertThat(result).isEqualTo(1575.00);
 
-        verify(vestRecord1).add(performanceRecord);
+//        verify(vestRecord1).add(performanceRecord);
         verify(vestRecord1).calculateGainFor(marketDate, marketPrice);
 
-        verify(vestRecord2).add(performanceRecord);
+//        verify(vestRecord2).add(performanceRecord);
         verify(vestRecord2).calculateGainFor(marketDate, marketPrice);
+
+        verify(performanceRecord).appliesTo(vestRecord1);
+        verify(performanceRecord).appliesTo(vestRecord2);
+        verify(performanceRecord, times(2)).getBonusMultiplierFor(marketDate);
     }
 }

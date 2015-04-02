@@ -26,36 +26,33 @@ public class EmployeeGainCalculator implements EmployeeAware {
 
     private void add(VestRecord vestRecord) {
         if (vestRecord.belongsTo(this)) {
-            applyAllPerformanceRecordsTo(vestRecord);
             vestRecords.add(vestRecord);
         }
     }
 
     private void add(PerformanceRecord performanceRecord) {
         if (performanceRecord.belongsTo(this)) {
-            applyToAllVestRecords(performanceRecord);
             performanceRecords.add(performanceRecord);
-        }
-    }
-
-    private void applyAllPerformanceRecordsTo(VestRecord vestRecord) {
-        for (PerformanceRecord performanceRecord : performanceRecords) {
-            vestRecord.add(performanceRecord);
-        }
-    }
-
-    private void applyToAllVestRecords(PerformanceRecord performanceRecord) {
-        for (VestRecord vestRecord : vestRecords) {
-            vestRecord.add(performanceRecord);
         }
     }
 
     public double calculateGainFor(Date marketDate, double marketPrice) {
         double result = 0;
         for (VestRecord vestRecord : vestRecords) {
-            result += vestRecord.calculateGainFor(marketDate, marketPrice);
+            double amount = vestRecord.calculateGainFor(marketDate, marketPrice);
+            result += amount*getBonusMultiplier(vestRecord, marketDate);
         }
         return result;
+    }
+
+    private double getBonusMultiplier(VestRecord vestRecord, Date marketDate) {
+        double multiplier = 1;
+        for (PerformanceRecord performanceRecord: performanceRecords) {
+            if (performanceRecord.appliesTo(vestRecord)) {
+                multiplier *= performanceRecord.getBonusMultiplierFor(marketDate);
+            }
+        }
+        return multiplier;
     }
 
     public boolean belongsTo(EmployeeAware employeeAware) {

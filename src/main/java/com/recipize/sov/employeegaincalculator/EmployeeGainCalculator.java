@@ -17,23 +17,21 @@ public class EmployeeGainCalculator implements EmployeeAware {
     }
 
     public void add(EmployeeAwareRecord record) {
-        if (record instanceof VestRecord) {
-            add((VestRecord) record);
-        } else if (record instanceof PerformanceRecord) {
-            add((PerformanceRecord) record);
+        if (record.belongsTo(this)) {
+            if (record instanceof VestRecord) {
+                add((VestRecord) record);
+            } else if (record instanceof PerformanceRecord) {
+                add((PerformanceRecord) record);
+            }
         }
     }
 
     private void add(VestRecord vestRecord) {
-        if (vestRecord.belongsTo(this)) {
-            vestRecords.add(vestRecord);
-        }
+        vestRecords.add(vestRecord);
     }
 
     private void add(PerformanceRecord performanceRecord) {
-        if (performanceRecord.belongsTo(this)) {
-            performanceRecords.add(performanceRecord);
-        }
+        performanceRecords.add(performanceRecord);
     }
 
     public double calculateGainFor(Date marketDate, double marketPrice) {
